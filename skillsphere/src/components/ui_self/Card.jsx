@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { urlFor } from "../../../lib/sanity"
 import { BsCartCheck } from "react-icons/bs";
+import { BsCartX } from "react-icons/bs";
 import { ButtonWrapper } from "./ButtonWrapper";
 import useCartStore from "@/store/CartStore";
 
@@ -39,10 +40,20 @@ export const Card = ({ course }) => {
             <p className=" text-gray-700 text-sm">{course.description}</p>
             <div className="flex items-center justify-between w-full mt-3">
                 <p className="dark:text-white font-bold text-2xl">{course.price}</p>
-                <ButtonWrapper variant="light" classes="flex items-center justify-center gap-2 w-38 !px-1 !py-2 dark:!border-0" handleClick={handleClick}>
-                    <BsCartCheck className="text-xl font-bold" />
-                    Add to cart
+                <ButtonWrapper variant="light" classes="flex items-center justify-center gap-2 w-40 text-sm !px-2 !py-2 dark:!border-0" handleClick={handleClick}>
+                    {cart.find((item) => item._id === course._id) ?
+                        <BsCartX className="text-lg font-bold" />
+                        :
+                        <BsCartCheck className="text-lg font-bold" />
+                    }
+                    {cart.find((item) => item._id === course._id) ?
+                        "Remove from cart"
+                        :
+                        "Add to cart"}
                 </ButtonWrapper>
+                {/* <BsCartCheck className="text-lg font-bold" />
+                    Add to cart
+                </ButtonWrapper> */}
             </div>
 
         </div>

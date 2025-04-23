@@ -31,9 +31,12 @@ function SignupPage() {
             className='w-full flex items-center justify-center flex-1 h-full mb-32 dark:bg-linear-to-t dark:bg-transparent bg-[#FFFFF0]/70
          dark:to-gray-800/50
          dark:from-black'
-            initial={{ opacity: 0, y: -80 }}
+            initial={{ opacity: 0, y: 80 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{
+                y: { duration: 0.6, ease: 'easeIn' },
+                opacity: { duration: 0.8, delay: 0.2, ease: 'easeIn' },
+            }}
         >
             <div className="rounded-2xl flex items-start justify-center gap-4 flex-col bg-white dark:bg-[#10161F] shadow-2xl w-4/10 py-8 px-4">
                 <h2 className='text-2xl font-bold'>Sign up to SkillSphere!</h2>

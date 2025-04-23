@@ -1,8 +1,8 @@
 'use client'
-
+import useCartStore from "@/store/CartStore";
+import { ShoppingCart } from "lucide-react";
 import Link from 'next/link'
 import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet'
-import { ButtonWrapper } from './ButtonWrapper'
 import { Menu, User, Moon, Sun } from 'lucide-react'
 import {
     DropdownMenu,
@@ -19,6 +19,8 @@ import { supabaseClient } from '../../../lib/supabaseclient'
 export default function Navbar() {
     const [darkMode, setDarkMode] = useState(false);
     const { user, loading } = useAuthUser()
+
+    const { cart } = useCartStore()
 
     useEffect(() => {
         if (darkMode) {
@@ -44,7 +46,7 @@ export default function Navbar() {
             </Link>
 
             <div className="hidden md:flex items-center dark:text-gray-300 font-bold gap-6">
-                <Link href="#featured-courses" className="text-sm hover:underline">
+                <Link href="/#featured-courses" className="text-sm hover:underline">
                     Courses
                 </Link>
                 <Link href="/about" className="text-sm hover:underline">
@@ -68,6 +70,10 @@ export default function Navbar() {
                             strokeWidth={3}
                         />
                     }
+                </div>
+                <div className="relative">
+                    <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
+                    <ShoppingCart size={18} strokeWidth={3} />
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -108,6 +114,10 @@ export default function Navbar() {
                             strokeWidth={3}
                         />
                     }
+                </div>
+                <div className="relative ml-2">
+                    <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
+                    <ShoppingCart size={18} strokeWidth={3} />
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
