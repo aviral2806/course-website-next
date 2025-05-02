@@ -1,8 +1,10 @@
 'use client'
 import { motion } from "framer-motion"
 import { ButtonWrapper } from "./ui_self/ButtonWrapper"
+import { useRouter } from "next/navigation"
 
 export const Hero = () => {
+    const router = useRouter()
     return (
         <motion.div className="
         w-full
@@ -43,10 +45,13 @@ export const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.1 }}
             >
-                <ButtonWrapper variant="light">
-                    Explore Courses
-                </ButtonWrapper>
-                <ButtonWrapper variant="dark">
+                <a href="#featured-courses">
+                    <ButtonWrapper variant="light" handleClick={() => { }}>
+                        Explore Courses
+                    </ButtonWrapper>
+                </a>
+
+                <ButtonWrapper variant="dark" handleClick={() => router.push("/learning-paths")}>
                     View learning paths
                 </ButtonWrapper>
             </motion.div>

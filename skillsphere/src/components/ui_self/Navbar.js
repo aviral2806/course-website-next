@@ -46,7 +46,7 @@ export default function Navbar() {
             </Link>
 
             <div className="hidden md:flex items-center dark:text-gray-300 font-bold gap-6">
-                <Link href="/#featured-courses" className="text-sm hover:underline">
+                <Link href="/#featured-courses" className="text-sm hover:underline" scroll={false}>
                     Courses
                 </Link>
                 <Link href="/about" className="text-sm hover:underline">
@@ -71,10 +71,13 @@ export default function Navbar() {
                         />
                     }
                 </div>
-                <div className="relative">
-                    <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
-                    <ShoppingCart size={18} strokeWidth={3} />
-                </div>
+                <Link href="/cart">
+                    <div className="relative">
+                        <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
+                        <ShoppingCart size={18} strokeWidth={3} />
+                    </div>
+                </Link>
+
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <div className="cursor-pointer font-bold">
@@ -115,10 +118,12 @@ export default function Navbar() {
                         />
                     }
                 </div>
-                <div className="relative ml-2">
-                    <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
-                    <ShoppingCart size={18} strokeWidth={3} />
-                </div>
+                <Link href="/cart">
+                    <div className="relative ml-2">
+                        <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
+                        <ShoppingCart size={18} strokeWidth={3} />
+                    </div>
+                </Link>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <div className="flex justify-start gap-2 items-center w-min cursor-pointer ml-2">
@@ -136,7 +141,7 @@ export default function Navbar() {
                     </SheetTrigger>
                     <SheetContent side="left" className={`dark:bg-black dark:text-white p-4 border-gray-700 border-1`}>
                         <div className="flex flex-col gap-4 mt-8 pl-4">
-                            <Link href="/courses">Courses</Link>
+                            <Link href="/#featured-courses" scroll={false}>Courses</Link>
                             <Link href="/about">About</Link>
                             <Link href="/contact">Contact</Link>
 

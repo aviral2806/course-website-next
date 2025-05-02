@@ -19,9 +19,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="smooth=scroll">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#FFFFF0]/70 dark:bg-black min-h-screen flex flex-col overflow-y-auto`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#FFFFF0]/70 dark:bg-black min-h-screen flex flex-col overflow-y-auto scroll-smooth`}
       >
         <Navbar />
         {children}

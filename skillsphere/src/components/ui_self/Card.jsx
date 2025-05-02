@@ -6,15 +6,19 @@ import { BsCartCheck } from "react-icons/bs";
 import { BsCartX } from "react-icons/bs";
 import { ButtonWrapper } from "./ButtonWrapper";
 import useCartStore from "@/store/CartStore";
+import { useRouter } from "next/navigation";
 
 
 export const Card = ({ course }) => {
+    const router = useRouter()
     const { cart, addToCart, removeFromCart } = useCartStore()
-    const handleClick = () => {
+    console.log(course)
+    const handleClick = (e) => {
+        e.stopPropagation()
         console.log(course)
         const inCart = cart.find((item) => item._id === course._id)
         if (inCart) {
-            removeFromCart(course.id)
+            removeFromCart(course._id)
         } else {
             addToCart(course)
         }
@@ -24,7 +28,8 @@ export const Card = ({ course }) => {
 
         <div
             key={course.id}
-            className="dark:bg-gray-800/30 bg-white rounded-2xl shadow-md p-4 gap-1 flex flex-col hover:shadow-l hover:scale-105 transition h-full"
+            className="dark:bg-gray-800/30 bg-white rounded-2xl hover:cursor-pointer shadow-md p-4 gap-1 flex flex-col hover:shadow-l hover:scale-105 transition h-full"
+            onClick={() => router.push(`/courses/${course.slug.current}`)}
         >
             <h2 className="text-xl dark:text-white font-bold mb-2">{course.title}</h2>
             <div className="w-full h-6/10 overflow-hidden">
