@@ -1,68 +1,58 @@
 
 import React from 'react'
-import VerticalProgress from '@/components/ui_self/VerticalProgress'
+import { groq } from 'next-sanity'
+import { sanityClient } from '../../../../lib/sanity'
+import LearningPathPage from './LearningPathPage'
+import { getAllLPQuery, getLPBySlugQuery } from '@/sanity/queries'
 
-async function page({ params }) {
-    const slug = await params.slug
-    return (
-        <main className='flex-1'>
-            <div className="flex flex-col items-center justify-center bg-gradient-to-b from-[#FFFFF0]/70 to-transparent dark:to-gray-800/50 dark:from-black">
-                <h1 className="text-4xl font-bold text-center dark:text-white">This the learning paths for {slug}</h1>
-                <p className="mt-4 text-lg text-center dark:text-gray-500">
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
-                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br />
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br />
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. <br />
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    <br />
-                </p>
-                <p className="mt-4 text-lg text-center dark:text-gray-500">
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
-                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br />
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br />
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. <br />
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    <br />
-                </p>
-                <p className="mt-4 text-lg text-center dark:text-gray-500">
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
-                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br />
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br />
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. <br />
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    <br />
-                </p>
-                <p className="mt-4 text-lg text-center dark:text-gray-500">
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
-                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br />
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br />
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. <br />
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    <br />
-                </p>
-                <p className="mt-4 text-lg text-center dark:text-gray-500">
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
-                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br />
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br />
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. <br />
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    <br />
-                </p>
-                <p className="mt-4 text-lg text-center dark:text-gray-500">
-                    lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
-                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br />
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. <br />
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. <br />
-                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    <br />
-                </p>
-
-            </div>
-            <div className="">
-                <VerticalProgress />
-            </div>
-        </main>
-    )
+export async function generateStaticParams() {
+    try {
+        const learningPaths = await sanityClient.fetch(getAllLPQuery)
+        return learningPaths.map((learningPath) => ({
+            slug: learningPath.slug.current
+        }))
+    } catch (e) {
+        console.error("Error fetching slugs: ", e)
+        return []
+    }
 }
 
-export default page
+export const revalidate = 60;
+
+export default async function LearningPage({ params }) {
+    const query = `
+        *[_type == "learningPath" && slug.current == $slug][0]{
+            title,
+            slug,
+            shortDescription,
+            detailedDescription,
+            estimatedDuration,
+            level,
+            tags,
+            thumbnail,
+            publishedAt,
+            courses[] {
+            _key,
+            note,
+            course->{
+                _id,
+                title,
+                slug,
+                description,
+                image,
+                category,
+                difficulty,
+                price
+            }
+            }
+        }
+        `;
+
+    const { slug } = await params
+    const learningPath = await sanityClient.fetch(query, { slug })
+    console.log(learningPath)
+
+    return (
+        <LearningPathPage learningPath={learningPath} />
+    )
+}

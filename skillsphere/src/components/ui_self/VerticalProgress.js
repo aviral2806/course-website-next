@@ -7,8 +7,12 @@ const VerticalProgress = () => {
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.scrollY
+            console.log(scrollTop, ' scrollTop')
             const docHeight = document.documentElement.scrollHeight - window.innerHeight
+            console.log(document.documentElement.scrollHeight, ' scrollHeight')
+            console.log(window.innerHeight, ' clientHeight')
             const scrolled = Math.min((scrollTop / docHeight) * 100, 100) // cap at 100
+            console.log(scrolled, ' scrolled')
             setProgress(scrolled)
         }
 

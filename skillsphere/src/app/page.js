@@ -7,6 +7,8 @@ import ScrollProvider from '@/components/ScrollProvider'
 
 export default async function Home() {
   const courses = await sanityClient.fetch(getAllQuery)
+  const learningPaths = await sanityClient.fetch(groq`*[_type == "learningPath"]`)
+  console.log(learningPaths)
 
   return (
     <main className="flex-1 h-[150vh]">

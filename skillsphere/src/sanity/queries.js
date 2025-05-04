@@ -24,24 +24,13 @@ export const getCourseBySlugQuery = groq`
 `;
 
 export const getAllQuery = groq`
-*[_type == "course"]{
-  _id,
-  title,
-  slug,
-  description,
-  category,
-  price,
-  rating,
-  difficulty,
-  image,
-  syllabus[] {
-    week,
-    topic,
-    description
-  },
-  faq[] {
-    question,
-    answer
-  }
-}
+*[_type == "course"]
+`;
+
+export const getAllLPQuery = groq`
+*[_type == "learningPath"]
+`;
+
+export const getLPBySlugQuery = groq`
+*[_type == "learningPath" && slug.current == $slug][0]
 `;
