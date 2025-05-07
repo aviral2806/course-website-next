@@ -14,6 +14,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useAuthUser } from '@/hooks/useAuthUser'
 import { supabaseClient } from '../../../lib/supabaseclient'
+import { useRouter } from "next/navigation";
 
 
 export default function Navbar() {
@@ -21,6 +22,7 @@ export default function Navbar() {
     const { user, loading } = useAuthUser()
 
     const { cart } = useCartStore()
+    const router = useRouter()
 
     useEffect(() => {
         if (darkMode) {
@@ -31,6 +33,15 @@ export default function Navbar() {
             localStorage.setItem("dark", false)
         }
     }, [darkMode])
+
+    const handleCartClick = async () => {
+        const { data } = await supabaseClient.auth.getSession()
+        if (!data.session) {
+            router.push("/login")
+            return
+        }
+        router.push("/cart")
+    }
 
 
     return (
@@ -71,12 +82,10 @@ export default function Navbar() {
                         />
                     }
                 </div>
-                <Link href="/cart">
-                    <div className="relative">
-                        <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
-                        <ShoppingCart size={18} strokeWidth={3} />
-                    </div>
-                </Link>
+                <div className="relative hover:cursor-pointer" onClick={handleCartClick}>
+                    <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
+                    <ShoppingCart size={18} strokeWidth={3} />
+                </div>
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -118,12 +127,11 @@ export default function Navbar() {
                         />
                     }
                 </div>
-                <Link href="/cart">
-                    <div className="relative ml-2">
-                        <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
-                        <ShoppingCart size={18} strokeWidth={3} />
-                    </div>
-                </Link>
+                <div className="relative hover:cursor-pointer" onClick={handleCartClick}>
+                    <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
+                    <ShoppingCart size={18} strokeWidth={3} />
+                </div>
+
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <div className="flex justify-start gap-2 items-center w-min cursor-pointer ml-2">

@@ -31,7 +31,7 @@ function LearningPathPage({ learningPath }) {
         bg-[#FFFFF0]/70 dark:bg-transparent
          dark:to-gray-800/50
          dark:from-black'>
-            <div className="flex w-full lg:flex-row flex-col items-center lg:items-start justify-around p-4">
+            <div className="flex w-full lg:flex-row flex-col-reverse items-center lg:items-start justify-around p-4">
                 <div className="flex flex-col items-start justify-center m-4 p-8 shadow-xl rounded-xl dark:bg-linear-to-t bg-white dark:bg-gray-900/70 w-3/4 lg:w-1/2">
                     <h1 className="text-4xl font-bold text-center dark:text-white mb-4">{learningPath.title}</h1>
                     <h1 className='text-lg font-bold text-gray-900 dark:text-gray-400 mt-2'>Estimated duration: {learningPath.estimatedDuration}</h1>

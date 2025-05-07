@@ -18,6 +18,7 @@ function LoginPage() {
         })
 
         if (error) {
+            console.log("error is this: ")
             console.log(error)
         } else {
             console.log(data)

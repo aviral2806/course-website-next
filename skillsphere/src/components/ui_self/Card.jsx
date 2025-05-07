@@ -7,15 +7,21 @@ import { BsCartX } from "react-icons/bs";
 import { ButtonWrapper } from "./ButtonWrapper";
 import useCartStore from "@/store/CartStore";
 import { useRouter } from "next/navigation";
+import { supabaseClient } from "../../../lib/supabaseclient";
 
 
 export const Card = ({ course }) => {
     const router = useRouter()
     const { cart, addToCart, removeFromCart } = useCartStore()
     console.log(course)
-    const handleClick = (e) => {
+    const handleClick = async (e) => {
         e.stopPropagation()
-        console.log(course)
+        const { data } = await supabaseClient.auth.getSession()
+        console.log(data)
+        if (!data.session) {
+            router.push("/login")
+            return
+        }
         const inCart = cart.find((item) => item._id === course._id)
         if (inCart) {
             removeFromCart(course._id)

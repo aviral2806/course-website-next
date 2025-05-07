@@ -27,7 +27,7 @@ const VerticalProgressRef = ({ targetRef }) => {
     }, [targetRef])
 
     return (
-        <div className="absolute xl:left-75 lg:left-40 left-12 top-0 my-32 h-[85%] w-1 bg-gray-400 -z-0">
+        <div className="absolute xl:left-75 lg:left-40 left-12 top-0 my-32 h-[85%] w-1 bg-gray-200 dark:bg-gray-800 -z-0">
             <div
                 style={{
                     height: `${progress}%`
