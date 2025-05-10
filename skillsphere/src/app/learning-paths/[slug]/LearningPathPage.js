@@ -6,9 +6,11 @@ import { urlFor } from '../../../../lib/sanity'
 import { ButtonWrapper } from '@/components/ui_self/ButtonWrapper'
 import { NotebookPen } from 'lucide-react'
 import VerticalProgressRef from '@/components/ui_self/VerticalProgressRef'
+import useCartStore from '@/store/CartStore'
 import { useRef } from 'react'
 
 function LearningPathPage({ learningPath }) {
+    const { addLearningPathToCart } = useCartStore()
     const learningPathRef = useRef(null)
     const { courses } = learningPath;
     const totalPrice = courses.reduce((acc, course) => {
@@ -24,7 +26,6 @@ function LearningPathPage({ learningPath }) {
         style: 'currency',
         currency: 'USD',
     }).format(totalFinalPrice);
-    console.log(formattedPrice, " formattedPrice")
 
     return (
         <main className='flex-1 bg-linear-to-t
@@ -45,7 +46,7 @@ function LearningPathPage({ learningPath }) {
                             <span className='font-bold text-3xl'> {formattedFinalPrice}</span>
                         </div>
                     </p>
-                    <ButtonWrapper handleClick={() => { }} classes="mt-8 w-full text-2xl font-bold">
+                    <ButtonWrapper handleClick={() => { addLearningPathToCart(learningPath) }} classes="mt-8 w-full text-2xl font-bold">
                         <div className="flex items-center justify-center">
                             <NotebookPen className="mr-2" size={22} />
                             <span>Get bundle</span>
@@ -54,13 +55,13 @@ function LearningPathPage({ learningPath }) {
                     </ButtonWrapper>
                 </div>
                 <div className="flex items-center justify-center">
-                    <Image
-                        src={learningPath.thumbnail ? urlFor(learningPath.thumbnail).url() : null}
+                    {learningPath.thumbnail !== null && <Image
+                        src={learningPath.thumbnail !== null ? urlFor(learningPath.thumbnail).url() : null}
                         alt={learningPath.title}
                         width={500}
                         height={500}
                         className="rounded-lg mb-2 mt-4"
-                    />
+                    />}
                 </div>
 
             </div>
@@ -85,7 +86,7 @@ function LearningPathPage({ learningPath }) {
                             >
                                 <div className="flex-1 flex items-center justify-start">
                                     <Image
-                                        src={course.course.image ? urlFor(course.course.image).url() : null}
+                                        src={course.course.image !== null ? urlFor(course.course.image).url() : null}
                                         alt={course.course.title}
                                         width={300}
                                         height={300}

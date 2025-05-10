@@ -21,7 +21,7 @@ export default function Navbar() {
     const [darkMode, setDarkMode] = useState(false);
     const { user, loading } = useAuthUser()
 
-    const { cart } = useCartStore()
+    const { courseCart } = useCartStore()
     const router = useRouter()
 
     useEffect(() => {
@@ -83,7 +83,7 @@ export default function Navbar() {
                     }
                 </div>
                 <div className="relative hover:cursor-pointer" onClick={handleCartClick}>
-                    <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
+                    <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white outline-2 outline-white">{courseCart.length}</span>
                     <ShoppingCart size={18} strokeWidth={3} />
                 </div>
 
@@ -128,7 +128,7 @@ export default function Navbar() {
                     }
                 </div>
                 <div className="relative hover:cursor-pointer" onClick={handleCartClick}>
-                    <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{cart.length}</span>
+                    <span className="rounded-md right-[-5px] top-[-6px] py-[2px] px-[4px] bg-red-500 absolute text-[8px] text-white">{courseCart.length}</span>
                     <ShoppingCart size={18} strokeWidth={3} />
                 </div>
 

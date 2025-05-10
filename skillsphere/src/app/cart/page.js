@@ -6,9 +6,10 @@ import CartCard from './CartCard';
 import { motion } from 'framer-motion';
 import { Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import LearningPathCartCard from './LearningPathCartCard';
 
 export default function CartPage() {
-    const { cart, removeFromCart, clearCart } = useCartStore();
+    const { courseCart, learningPathCart, removeFromCart, clearCart } = useCartStore();
 
     return (
         <motion.main
@@ -21,12 +22,12 @@ export default function CartPage() {
         >
             <div className="cart-page rounded-2xl bg-white dark:bg-gray-900/70 shadow-xl p-8 m-4 h-full">
                 <h1 className="text-2xl font-bold">Your Cart</h1>
-                {cart.length === 0 ? (
+                {courseCart.length === 0 && learningPathCart.length === 0 ? (
                     <p className='text-xl font-semibold mt-6'>Your cart is empty. Go to <Link href={'/#featured-courses'} className='underline font-bold'>courses</Link> to explore and shop!</p>
                 ) : (
                     <div>
                         <div className="grid grid-cols-1 md:grid-cols-2 place-items-center lg:grid-cols-3 gap-6 py-10">
-                            {cart.map((course) => (
+                            {courseCart.map((course) => (
                                 <CartCard
                                     key={course._id}
                                     course={course}
@@ -34,7 +35,21 @@ export default function CartPage() {
                                 />
                             ))}
                         </div>
-                        <ButtonWrapper variant='dark' handleClick={clearCart} className="mt-4">
+                        {learningPathCart.length > 0 && (
+                            <div className="mt-10 mb-10">
+                                <h2 className="text-2xl font-bold mb-10">Learning Paths in your Cart</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-2 place-items-center lg:grid-cols-3 gap-6">
+                                    {learningPathCart.map((learningPath) => (
+                                        <LearningPathCartCard
+                                            key={learningPath._id}
+                                            learningPath={learningPath}
+                                            onRemove={removeFromCart}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        <ButtonWrapper variant='dark' handleClick={clearCart} className="">
                             <div className="flex items-center justify-center gap">
                                 <Trash2 size={18} className="mr-2" />
                                 Clear Cart

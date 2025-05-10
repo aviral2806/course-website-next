@@ -28,9 +28,61 @@ export const getAllQuery = groq`
 `;
 
 export const getAllLPQuery = groq`
-*[_type == "learningPath"]
-`;
+        *[_type == "learningPath"]{
+            title,
+            slug,
+            shortDescription,
+            detailedDescription,
+            estimatedDuration,
+            level,
+            tags,
+            thumbnail,
+            publishedAt,
+            courses[] {
+            _key,
+            note,
+            course->{
+                _id,
+                title,
+                slug,
+                description,
+                image,
+                category,
+                difficulty,
+                price
+            }
+            }
+        }
+        `;
 
-export const getLPBySlugQuery = groq`
-*[_type == "learningPath" && slug.current == $slug][0]
-`;
+export const getLPbySlug = groq`
+        *[_type == "learningPath" && slug.current == $slug][0]{
+            title,
+            slug,
+            shortDescription,
+            detailedDescription,
+            estimatedDuration,
+            level,
+            tags,
+            thumbnail,
+            publishedAt,
+            courses[] {
+            _key,
+            note,
+            course->{
+                _id,
+                title,
+                slug,
+                description,
+                image,
+                category,
+                difficulty,
+                price
+            }
+            }
+        }
+        `;
+
+// export const getLPBySlugQuery = groq`
+// *[_type == "learningPath" && slug.current == $slug][0]
+// `;

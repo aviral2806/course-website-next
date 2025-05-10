@@ -12,7 +12,7 @@ import { supabaseClient } from "../../../lib/supabaseclient";
 
 export const Card = ({ course }) => {
     const router = useRouter()
-    const { cart, addToCart, removeFromCart } = useCartStore()
+    const { courseCart, addToCart, removeFromCart } = useCartStore()
     console.log(course)
     const handleClick = async (e) => {
         e.stopPropagation()
@@ -22,13 +22,13 @@ export const Card = ({ course }) => {
             router.push("/login")
             return
         }
-        const inCart = cart.find((item) => item._id === course._id)
+        const inCart = courseCart.find((item) => item._id === course._id)
         if (inCart) {
             removeFromCart(course._id)
         } else {
             addToCart(course)
         }
-        console.log(cart)
+        console.log(courseCart)
     }
     return (
 
@@ -52,12 +52,12 @@ export const Card = ({ course }) => {
             <div className="flex items-center justify-between w-full mt-3">
                 <p className="dark:text-white font-bold text-2xl">{course.price}</p>
                 <ButtonWrapper variant="light" classes="flex items-center justify-center gap-2 w-40 text-sm !px-2 !py-2 dark:!border-0" handleClick={handleClick}>
-                    {cart.find((item) => item._id === course._id) ?
+                    {courseCart.find((item) => item._id === course._id) ?
                         <BsCartX className="text-lg font-bold" />
                         :
                         <BsCartCheck className="text-lg font-bold" />
                     }
-                    {cart.find((item) => item._id === course._id) ?
+                    {courseCart.find((item) => item._id === course._id) ?
                         "Remove from cart"
                         :
                         "Add to cart"}
